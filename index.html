@@ -1,62 +1,2158 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Git Presentation OE 2025</title>
+    <title>Git Workshop für Erstsemester - VSCode</title>
+
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/black.css">
+
+    <!-- Code highlighting theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/monokai.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Particles.js for animated background -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <!-- Ultra-Fancy Git Workshop Theme with Light/Dark Mode -->
     <style>
+        /* ===== THEME TOKENS (Dual Mode Support) ===== */
+        :root {
+            /* Dark Mode (Default) */
+            --bg-0: #0a0e1a;           /* Deep space blue */
+            --bg-1: #141824;           /* Elevated surface */
+            --bg-2: #1e2433;           /* Card background */
+            --bg-3: #2a3142;           /* Hover states */
+            --fg:   #e4e7f0;           /* Primary text */
+            --fg-muted: #a0a8c0;       /* Secondary text */
+            --fg-subtle: #6c7489;      /* Tertiary text */
+
+            /* Git-inspired accents */
+            --accent-orange: #ff6b35;  /* Git orange (vibrant) */
+            --accent-blue: #4da3ff;    /* GitHub blue (bright) */
+            --accent-green: #3dd68c;   /* Success green */
+            --accent-purple: #a78bfa;  /* Purple accent */
+            --accent-pink: #f472b6;    /* Pink accent */
+            --accent-yellow: #fbbf24;  /* Warning yellow */
+
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --gradient-secondary: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-success: linear-gradient(135deg, #3dd68c 0%, #0cebeb 100%);
+            --gradient-code: linear-gradient(135deg, #667eea 0%, #4da3ff 100%);
+            --gradient-mesh:
+                radial-gradient(at 0% 0%, rgba(102, 126, 234, 0.15) 0px, transparent 50%),
+                radial-gradient(at 50% 0%, rgba(77, 163, 255, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(167, 139, 250, 0.1) 0px, transparent 50%);
+
+            /* Borders & shadows */
+            --border-soft: rgba(228, 231, 240, 0.1);
+            --border-strong: rgba(228, 231, 240, 0.2);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 16px 64px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 40px rgba(102, 126, 234, 0.3);
+
+            /* Glass effect */
+            --glass-bg: rgba(20, 24, 36, 0.7);
+            --glass-border: rgba(228, 231, 240, 0.15);
+            --glass-blur: blur(20px);
+
+            /* Code colors */
+            --code-bg: #0f1419;
+            --code-border: rgba(77, 163, 255, 0.2);
+        }
+
+        /* Light Mode */
+        [data-theme="light"] {
+            --bg-0: #f8fafc;           /* Light gray background */
+            --bg-1: #ffffff;           /* White surface */
+            --bg-2: #f1f5f9;           /* Card background */
+            --bg-3: #e2e8f0;           /* Hover states */
+            --fg:   #1e293b;           /* Dark text */
+            --fg-muted: #475569;       /* Secondary text */
+            --fg-subtle: #94a3b8;      /* Tertiary text */
+
+            /* Adjusted accents for light mode */
+            --accent-orange: #f05032;  /* Git orange */
+            --accent-blue: #0969da;    /* GitHub blue */
+            --accent-green: #2da44e;   /* Success green */
+            --accent-purple: #8b5cf6;  /* Purple accent */
+            --accent-pink: #ec4899;    /* Pink accent */
+            --accent-yellow: #f59e0b;  /* Warning yellow */
+
+            /* Light mode gradients */
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --gradient-secondary: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-success: linear-gradient(135deg, #3dd68c 0%, #0cebeb 100%);
+            --gradient-code: linear-gradient(135deg, #667eea 0%, #4da3ff 100%);
+            --gradient-mesh:
+                radial-gradient(at 0% 0%, rgba(102, 126, 234, 0.08) 0px, transparent 50%),
+                radial-gradient(at 50% 0%, rgba(77, 163, 255, 0.06) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(167, 139, 250, 0.05) 0px, transparent 50%);
+
+            /* Light borders & shadows */
+            --border-soft: rgba(30, 41, 59, 0.08);
+            --border-strong: rgba(30, 41, 59, 0.15);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 16px 64px rgba(0, 0, 0, 0.15);
+            --shadow-glow: 0 0 40px rgba(102, 126, 234, 0.15);
+
+            /* Glass effect (light) */
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(30, 41, 59, 0.1);
+            --glass-blur: blur(20px);
+
+            /* Code colors (light) */
+            --code-bg: #f8fafc;
+            --code-border: rgba(9, 105, 218, 0.15);
+        }
+
+        /* ===== SMOOTH THEME TRANSITIONS ===== */
+        * {
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* ===== ANIMATED BACKGROUND ===== */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--gradient-mesh), var(--bg-0);
+            color: var(--fg);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Disable particles */
+        #particles-js { display: none; }
+
+        /* Animated gradient mesh overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(to right, var(--border-soft) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--border-soft) 1px, transparent 1px);
+            background-size: 32px 32px;
+            opacity: 0.4;
+            z-index: -1;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(32px, 32px); }
+        }
+
+        /* Floating orbs animation */
+        body::after {
+            content: '';
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.15), transparent 70%);
+            border-radius: 50%;
+            top: -300px;
+            right: -300px;
+            animation: floatOrb 15s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-100px, 100px) scale(1.1); }
+        }
+
+        /* ===== REVEAL BASE ===== */
+        .reveal {
+            font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            font-size: 20px;
+            color: var(--fg);
+            font-weight: 400;
+        }
+        .reveal .slides {
+            text-align: left;
+            max-width: 1200px;
+        }
+
+        /* ===== SLIDE CONTAINERS (Glassmorphism Cards) ===== */
+        .reveal section {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            padding: 40px 60px !important;
+            position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: 90vh;
+            /* Hide scrollbars */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+        }
+
+        /* Hide scrollbars for webkit browsers */
+        .reveal section::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide future slides to prevent flashing */
+        .reveal .slides section.future {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Ensure past slides don't show either */
+        .reveal .slides section.past {
+            opacity: 0;
+        }
+
+        /* Present slides are fully visible - no animation to prevent twitching */
+        .reveal .slides section.present {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Animated gradient border */
+        .reveal section::before {
+            content: '';
+            position: absolute;
+            left: 0; right: 0; top: 0;
+            height: 5px;
+            background: var(--gradient-primary);
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% 100%;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Hover effect */
+        .reveal section:hover {
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            transform: translateY(-2px);
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        .reveal h1 {
+            font-size: 2.4em;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5em;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            animation: textShine 3s ease-in-out infinite;
+            background-size: 200% auto;
+        }
+
+        @keyframes textShine {
+            0%, 100% { background-position: 0% center; }
+            50% { background-position: 100% center; }
+        }
+
+        .reveal h2 {
+            font-size: 1.6em;
+            font-weight: 700;
+            margin: 0.4em 0 0.8em 0;
+            color: var(--fg);
+            position: relative;
+            padding-left: 0;
+            border-left: none;
+        }
+
+        .reveal h2::before {
+            content: '';
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 80%;
+            background: var(--gradient-code);
+            border-radius: 3px;
+            opacity: 0.6;
+        }
+
+        .reveal h3 {
+            font-size: 1.25em;
+            font-weight: 600;
+            color: var(--fg-muted);
+            margin: 1em 0 0.6em 0;
+        }
+
+        .reveal p {
             line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            color: var(--fg);
+            margin: 0.5em 0;
+            font-size: 0.95em;
         }
-        .container {
-            background: white;
+
+        .reveal strong {
+            color: var(--fg);
+            font-weight: 700;
+            /* Remove animated highlight for better readability */
+        }
+
+        .reveal em {
+            color: var(--accent-purple);
+            font-style: italic;
+        }
+
+        /* ===== LINKS ===== */
+        .reveal a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .reveal a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-code);
+            transition: width 0.3s ease;
+        }
+        .reveal a:hover::after {
+            width: 100%;
+        }
+
+        /* ===== CODE BLOCKS (Compact) ===== */
+        .reveal code {
+            font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+            background: var(--code-bg);
+            color: var(--accent-blue);
+            padding: 3px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--code-border);
+            font-size: 0.85em;
+            font-weight: 500;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+
+        .reveal pre {
+            background: var(--code-bg);
+            border: 1px solid var(--code-border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            padding-top: 36px;
+            margin: 16px 0;
+            box-shadow: var(--shadow-md), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow-x: auto;
+            overflow-y: hidden;
+            max-height: 400px;
+        }
+
+        /* macOS-style window buttons (smaller) */
+        .reveal pre::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 14px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff5f56;
+            box-shadow:
+                18px 0 0 #ffbd2e,
+                36px 0 0 #27c93f;
+        }
+
+        /* Syntax highlight */
+        .reveal pre code {
+            background: transparent;
+            color: var(--fg);
+            font-size: 1rem;
+            text-shadow: none;
+            border: none;
+            padding: 0;
+            display: block;
+            line-height: 1.5;
+            white-space: pre;
+        }
+
+        /* ===== QUOTES ===== */
+        .reveal blockquote {
+            border-left: 4px solid var(--accent-orange);
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.08), rgba(255, 107, 53, 0.04));
+            padding: 14px 18px;
             border-radius: 10px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            font-style: italic;
+            margin: 16px 0;
+            box-shadow: var(--shadow-sm);
+            font-size: 0.95em;
         }
-        h1 {
-            color: #667eea;
-            text-align: center;
-            margin-bottom: 10px;
+
+        /* ===== LISTS (Fixed Overflow) ===== */
+        .reveal ul, .reveal ol {
+            margin: 0.8em 0;
+            padding-left: 1.5em;
+            line-height: 1.6;
         }
-        h2 {
-            color: #764ba2;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 10px;
-            margin-top: 30px;
+        .reveal ul > li::marker {
+            color: var(--accent-blue);
         }
-        p {
-            margin: 15px 0;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #666;
+        .reveal li {
+            margin: 0.4em 0;
             font-size: 0.9em;
+            padding-left: 0.3em;
+        }
+
+        /* Nested lists */
+        .reveal li ul,
+        .reveal li ol {
+            margin: 0.3em 0;
+            padding-left: 1.2em;
+        }
+
+        /* ===== CALLOUT BOXES (Compact) ===== */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(77, 163, 255, 0.12), rgba(77, 163, 255, 0.06));
+            border-left: 4px solid var(--accent-blue);
+            border: 1px solid var(--border-strong);
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin: 14px 0;
+            box-shadow: var(--shadow-sm);
+            font-size: 0.9em;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.12), rgba(251, 191, 36, 0.06));
+            border-left: 4px solid var(--accent-yellow);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin: 14px 0;
+            box-shadow: var(--shadow-sm);
+            font-size: 0.9em;
+        }
+
+        /* ===== CHECKLIST (Compact) ===== */
+        .checklist {
+            list-style: none !important;
+            padding-left: 0;
+            margin: 0.8em 0;
+        }
+        .checklist li {
+            position: relative;
+            padding-left: 32px;
+            margin: 0.5em 0;
+            font-size: 0.9em;
+        }
+        .checklist li::before {
+            content: '\2713';
+            position: absolute;
+            left: 0;
+            top: 1px;
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            display: grid;
+            place-items: center;
+            font-weight: 900;
+            font-size: 0.8em;
+            color: #fff;
+            background: var(--gradient-success);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ===== DEMO EMPHASIS ===== */
+        .reveal section.demo {
+            background: var(--glass-bg);
+            border: 2px solid var(--accent-blue);
+            box-shadow: var(--shadow-lg), 0 0 40px rgba(77, 163, 255, 0.3);
+        }
+        .reveal section.demo h2 {
+            border-left-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        /* ===== UI ELEMENTS ===== */
+        .reveal .slide-number {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            color: var(--fg-muted);
+            padding: 8px 16px;
+            border-radius: 999px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-sm);
+            font-weight: 600;
+        }
+
+        .reveal .progress {
+            background: var(--border-soft);
+            height: 5px;
+        }
+        .reveal .progress span {
+            background: var(--gradient-primary);
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.5);
+        }
+
+        .reveal .controls button {
+            color: var(--accent-blue) !important;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        .reveal .controls button:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* ===== TITLE SLIDES (Spectacular) ===== */
+        .reveal section.title-slide {
+            background: var(--gradient-mesh), var(--bg-1);
+            border: 2px solid var(--border-strong);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+        }
+        .reveal section.title-slide::before {
+            height: 6px;
+            animation: gradientShift 4s ease infinite;
+        }
+
+        /* ===== KBD (Keyboard Keys) ===== */
+        kbd {
+            background: var(--bg-2);
+            border: 2px solid var(--border-strong);
+            border-bottom: 4px solid var(--border-strong);
+            color: var(--fg);
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+            display: inline-block;
+            min-width: 32px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        kbd:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ===== HR ===== */
+        hr {
+            border: none;
+            height: 3px;
+            background: var(--gradient-primary);
+            margin: 40px 0;
+            border-radius: 999px;
+        }
+
+        /* ===== TABLES (Compact) ===== */
+        .reveal table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            margin: 16px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            font-size: 0.85em;
+        }
+        .reveal th {
+            background: var(--bg-2);
+            color: var(--fg);
+            font-weight: 700;
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 2px solid var(--accent-blue);
+        }
+        .reveal td {
+            padding: 8px 14px;
+            border-bottom: 1px solid var(--border-soft);
+        }
+        .reveal tr:last-child td {
+            border-bottom: none;
+        }
+        .reveal tr:hover {
+            background: var(--bg-2);
+        }
+
+        /* ===== LAYOUT ===== */
+        .reveal section.center {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .reveal section.center h1,
+        .reveal section.center h2,
+        .reveal section.center h3 {
+            border: none;
+            text-align: center;
+            width: 100%;
+        }
+
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+            font-size: 0.9em;
+        }
+        @media (max-width: 768px) {
+            .two-columns { grid-template-columns: 1fr; }
+        }
+
+        /* ===== SCROLLBAR (Hidden) ===== */
+        /* Scrollbars are hidden but scrolling still works */
+        * {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+        }
+        *::-webkit-scrollbar {
+            display: none; /* Chrome/Safari/Opera */
+        }
+
+        /* ===== THEME TOGGLE BUTTON ===== */
+        #theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 2px solid var(--glass-border);
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        #theme-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+        }
+
+        #theme-toggle svg {
+            width: 28px;
+            height: 28px;
+            transition: all 0.5s ease;
+        }
+
+        #theme-toggle .sun {
+            display: none;
+        }
+
+        [data-theme="light"] #theme-toggle .sun {
+            display: block;
+        }
+
+        [data-theme="light"] #theme-toggle .moon {
+            display: none;
+        }
+
+        /* Pulse animation on theme change */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        #theme-toggle.changing {
+            animation: pulse 0.5s ease;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Git Presentation</h1>
-        <p style="text-align: center; color: #666;">OE 2025</p>
-        
-        <h2>Welcome</h2>
-        <p>This is the landing page for the Git Presentation project.</p>
-        
-        <h2>About</h2>
-        <p>This repository contains materials and resources for learning about Git version control.</p>
-        
-        <div class="footer">
-            <p>Git Presentation OE 2025</p>
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle" aria-label="Toggle theme">
+        <svg class="sun" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <path d="M12 1v2m0 18v2M4.2 4.2l1.4 1.4m12.8 12.8l1.4 1.4M1 12h2m18 0h2M4.2 19.8l1.4-1.4m12.8-12.8l1.4-1.4"></path>
+        </svg>
+        <svg class="moon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
+
+    <!-- Animated Particle Background -->
+    <div id="particles-js"></div>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- TITLE SLIDE -->
+            <section class="center title-slide">
+                <h1>🚀 Git Workshop</h1>
+                <h2>Versionskontrolle mit VSCode</h2>
+                <h3>OE 2025</h3>
+                <aside class="notes">
+                    Begrüßung, Vorstellung, Überblick über den Workshop geben.
+                    Dauer: 45 Minuten + Fragen
+                </aside>
+            </section>
+
+            <!-- SECTION 1: EINFÜHRUNG -->
+            <section>
+                <section class="center">
+                    <h2>1. Einführung</h2>
+                    <h3>Warum Git? 🤔</h3>
+                </section>
+
+                <section>
+                    <h3>Das Problem ohne Versionskontrolle</h3>
+                    <pre><code>essay.docx
+essay_final.docx
+essay_final_v2.docx
+essay_final_v2_wirklich_final.docx
+essay_final_v2_wirklich_final_diesmal_echt.docx</code></pre>
+                    <div class="highlight-box">
+                        <p><strong>Kennt ihr das?</strong> Chaos bei Datei-Versionen!</p>
+                    </div>
+                    <aside class="notes">
+                        Anekdote: Zeigen wie chaotisch es ohne Versionskontrolle ist.
+                        Fragen: "Wer kennt das?"
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Was ist Git?</h3>
+                    <blockquote>
+                        <strong>Git ist wie eine Zeitmaschine für deinen Code!</strong>
+                    </blockquote>
+                    <ul>
+                        <li>✅ Erstelle "Speicherpunkte" (Snapshots) deines Projekts</li>
+                        <li>✅ Gehe jederzeit zu früheren Versionen zurück</li>
+                        <li>✅ Arbeite mit anderen zusammen, ohne Chaos</li>
+                        <li>✅ Sieh genau, wer was wann geändert hat</li>
+                    </ul>
+                    <aside class="notes">
+                        Zeitmaschinen-Analogie betonen!
+                        Git = Sicherheitsnetz für deinen Code
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Warum VSCode?</h3>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Vorteile:</strong></p>
+                            <ul>
+                                <li>✓ Grafische Oberfläche</li>
+                                <li>✓ Kommandozeile optional</li>
+                                <li>✓ Integriert in Editor</li>
+                                <li>✓ Visuelles Feedback</li>
+                                <li>✓ Einsteigerfreundlich</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Perfekt für Anfänger!</strong></p>
+                            <pre><code>Terminal ❌
+├── git add .
+├── git commit -m "..."
+└── git push
+
+VSCode ✅
+└── Click, Click, Done!</code></pre>
+                        </div>
+                    </div>
+                    <aside class="notes">
+                        Beruhigend wirken: Keine Angst vor Terminal nötig!
+                        VSCode macht Git zugänglich
+                    </aside>
+                </section>
+            </section>
+
+            <!-- SECTION 2: GRUNDKONZEPTE -->
+            <section>
+                <section class="center">
+                    <h2>2. Grundkonzepte</h2>
+                    <h3>Einfach erklärt 📚</h3>
+                </section>
+
+                <section>
+                    <h3>Repository (Repo)</h3>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Was ist das?</strong></p>
+                            <ul>
+                                <li>Ein normaler Projektordner...</li>
+                                <li>...mit einer "Erinnerungsfunktion"</li>
+                                <li>Git merkt sich alle Änderungen</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Visualisierung:</strong></p>
+                            <pre><code>mein-projekt/
+├── index.html
+├── style.css
+└── .git/      ← Git-Magie!</code></pre>
+                        </div>
+                    </div>
+                    <aside class="notes">
+                        Repository = "intelligenter" Ordner
+                        .git/ Ordner ist unsichtbare Magie
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Commit</h3>
+                    <div class="highlight-box">
+                        <p>Ein <strong>Commit</strong> = <strong>Speicherpunkt</strong> / Snapshot deines Projekts</p>
+                    </div>
+                    <p><strong>Beispiele:</strong></p>
+                    <pre><code>Commit #1: "Projekt erstellt"
+Commit #2: "Login-Funktion hinzugefügt"
+Commit #3: "Bug in Login behoben"</code></pre>
+                    <p>💡 <strong>Wie ein Foto:</strong> "So sah mein Projekt zu diesem Zeitpunkt aus"</p>
+                    <aside class="notes">
+                        Foto-Analogie nutzen
+                        Commits = Checkpoints in Videospiel
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Remote (GitHub/GitLab)</h3>
+                    <p><strong>Online-Kopie deines Repositories</strong></p>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Funktionen:</strong></p>
+                            <ul>
+                                <li>☁️ <strong>Backup:</strong> Sicher in der Cloud</li>
+                                <li>👥 <strong>Zusammenarbeit:</strong> Andere können mitmachen</li>
+                                <li>🌍 <strong>Zugriff:</strong> Von überall arbeiten</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <pre><code>💻 Dein PC
+    ↕️ Push/Pull
+☁️ GitHub
+    ↕️ Push/Pull
+💻 Teamkollege</code></pre>
+                        </div>
+                    </div>
+                    <aside class="notes">
+                        Remote = Cloud-Backup + Collaboration-Tool
+                        GitHub ist populärste Plattform
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Branch (kurz erwähnt)</h3>
+                    <p><strong>Branch = Parallel-Version deines Projekts</strong></p>
+                    <pre><code>main:     A ── B ── C ── D
+               ╲
+feature:        X ── Y</code></pre>
+                    <ul>
+                        <li>Zum Experimentieren ohne das Original zu ändern</li>
+                        <li><strong>Heute:</strong> Nur Grundlagen</li>
+                        <li><strong>Später:</strong> Fortgeschrittenes Thema</li>
+                    </ul>
+                    <aside class="notes">
+                        Nicht zu viel Zeit auf Branches verwenden
+                        Nur erwähnen, dass es existiert
+                    </aside>
+                </section>
+            </section>
+
+            <!-- SECTION 3: SETUP & ERSTES REPO -->
+            <section>
+                <section class="center">
+                    <h2>3. Setup & Erstes Repository</h2>
+                    <h3>Bevor wir loslegen 🛠️</h3>
+                </section>
+
+                <section>
+                    <h3>Schritt 1: Git konfigurieren</h3>
+                    <div class="highlight-box">
+                        <p><strong>Einmalig pro Rechner!</strong> Git muss wissen, wer du bist.</p>
+                    </div>
+                    <p><strong>Im Terminal (in VSCode: <kbd>Strg+Ö</kbd>):</strong></p>
+                    <pre><code class="language-bash">git config --global user.name "Dein Name"
+git config --global user.email "deine@email.de"
+git config --global init.defaultBranch main</code></pre>
+                    <p>💡 <strong>Warum?</strong> Jeder Commit wird mit deinem Namen versehen!</p>
+                    <aside class="notes">
+                        SEHR WICHTIG: Ohne diese Konfiguration wird der erste Commit fehlschlagen!
+                        Kurz zeigen: Terminal öffnen, Befehle eingeben
+                        Erklären: Name und Email erscheinen bei jedem Commit
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Schritt 2: Repository erstellen</h3>
+                    <p><strong>Option A: Neues Repository (lokal)</strong></p>
+                    <ol>
+                        <li>Erstelle einen Projektordner (z.B. <code>mein-projekt</code>)</li>
+                        <li>Öffne ihn in VSCode: <strong>File → Open Folder</strong></li>
+                        <li>Source Control Panel öffnen (<kbd>Strg+Shift+G</kbd>)</li>
+                        <li>Klick auf <strong>"Initialize Repository"</strong></li>
+                        <li>✅ Fertig! Dein Ordner ist jetzt ein Git-Repository</li>
+                    </ol>
+                    <aside class="notes">
+                        Live zeigen: Ordner erstellen, VSCode öffnen, Initialize Repository
+                        Zeigen: .git Ordner ist nun vorhanden (versteckt)
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Schritt 3: Mit GitHub verbinden</h3>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>GitHub Account erstellen:</strong></p>
+                            <ul>
+                                <li>Gehe zu <a href="https://github.com">github.com</a></li>
+                                <li>Sign Up (kostenlos!)</li>
+                                <li>Email verifizieren</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>In VSCode anmelden:</strong></p>
+                            <ul>
+                                <li>Unten links: Klick auf <strong>Account</strong>-Icon</li>
+                                <li>Wähle <strong>"Sign in with GitHub"</strong></li>
+                                <li>Im Browser anmelden → VSCode autorisieren</li>
+                                <li>✅ Fertig!</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="highlight-box" style="margin-top: 20px;">
+                        <p><strong>Tipp:</strong> Einmal anmelden, dann funktioniert Push/Pull automatisch! 🎉</p>
+                    </div>
+                    <aside class="notes">
+                        WICHTIG: Anmeldung VOR der ersten Push-Demo!
+                        Zeigen: Account-Icon unten links, Sign-In-Flow
+                        Beruhigen: Ist einmalig, danach automatisch
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Option B: Repository klonen</h3>
+                    <p><strong>Du willst an einem existierenden Projekt mitarbeiten?</strong></p>
+                    <ol>
+                        <li>Gehe zum GitHub-Repository (z.B. von Dozenten geteilt)</li>
+                        <li>Klick auf grünen <strong>"Code"</strong> Button</li>
+                        <li>Kopiere die HTTPS-URL</li>
+                        <li>In VSCode: <kbd>Strg+Shift+P</kbd> → <code>"Git: Clone"</code></li>
+                        <li>URL einfügen → Zielordner wählen</li>
+                        <li>✅ Repository wird heruntergeladen!</li>
+                    </ol>
+                    <aside class="notes">
+                        Kurz erwähnen, nicht zu viel Zeit hier
+                        Für Übungsaufgaben oder Gruppenprojekte relevant
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Zusammenfassung: Setup ✅</h3>
+                    <ul class="checklist">
+                        <li><strong>Git konfiguriert</strong> (user.name, user.email)</li>
+                        <li><strong>GitHub Account</strong> erstellt</li>
+                        <li><strong>VSCode angemeldet</strong> bei GitHub</li>
+                        <li><strong>Repository erstellt</strong> (initialize oder clone)</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <p><strong>Jetzt kann's losgehen mit dem ersten Commit!</strong> 💪</p>
+                    </div>
+                    <aside class="notes">
+                        Kurz zusammenfassen - alle sind jetzt bereit
+                        Zeit für Fragen: "Alle soweit?"
+                    </aside>
+                </section>
+            </section>
+
+            <!-- SECTION 4: VSCODE INTEGRATION -->
+            <section>
+                <section class="center demo">
+                    <h2>4. VSCode Git-Integration</h2>
+                    <h3>Source Control Panel 🖥️</h3>
+                </section>
+
+                <section class="demo">
+                    <h3>Source Control Panel</h3>
+                    <p><strong>Status-Symbole:</strong></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Symbol</th>
+                                <th>Bedeutung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>M</strong></td><td>Modified (geändert)</td></tr>
+                            <tr><td><strong>U</strong></td><td>Untracked (neu, nicht versioniert)</td></tr>
+                            <tr><td><strong>D</strong></td><td>Deleted (gelöscht)</td></tr>
+                            <tr><td><strong>A</strong></td><td>Added (hinzugefügt)</td></tr>
+                            <tr><td><strong>C</strong></td><td>Conflict (Konflikt!)</td></tr>
+                        </tbody>
+                    </table>
+                    <p><strong>Shortcut:</strong> <kbd>Strg+Shift+G</kbd> (Windows) / <kbd>Cmd+Shift+G</kbd> (Mac)</p>
+                    <aside class="notes">
+                        VSCode öffnen und Source Control Panel zeigen
+                        Symbole durchgehen
+                    </aside>
+                </section>
+            </section>
+
+            <!-- SECTION 5: DEMO 1 - GRUNDWORKFLOW -->
+            <section>
+                <section class="center">
+                    <h2>5. LIVE-DEMO 1</h2>
+                    <h3>Grundworkflow 🎯</h3>
+                </section>
+
+                <section>
+                    <h3>Was wir zeigen werden:</h3>
+                    <div class="highlight-box">
+                        <ol>
+                            <li>✏️ Datei ändern</li>
+                            <li>👀 Änderung in VSCode sehen</li>
+                            <li>💾 Commit erstellen</li>
+                            <li>📜 Historie ansehen</li>
+                        </ol>
+                    </div>
+                    <p style="text-align: center; font-size: 1.3em; margin-top: 30px;">
+                        <strong>"Ändern → Commit → Fertig!"</strong>
+                    </p>
+                    <aside class="notes">
+                        WICHTIG: Jetzt wechseln zu VSCode!
+                        Langsam demonstrieren, jeden Schritt zeigen
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Demo-Schritte (1/3)</h3>
+                    <p><strong>1. Datei ändern</strong></p>
+                    <ul>
+                        <li>Öffne eine Datei im Demo-Projekt</li>
+                        <li>Schreibe etwas hinein / ändere Text</li>
+                        <li>Datei speichern (<kbd>Strg+S</kbd>)</li>
+                    </ul>
+                    <p><strong>2. Source Control Panel öffnen</strong></p>
+                    <ul>
+                        <li>Icon in der Seitenleiste klicken</li>
+                        <li>Geänderte Datei erscheint unter "Changes"</li>
+                    </ul>
+                    <aside class="notes">
+                        Live zeigen: Datei ändern und speichern
+                        Source Control Panel öffnen
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Demo-Schritte (2/3)</h3>
+                    <p><strong>3. Änderung anschauen</strong></p>
+                    <ul>
+                        <li>Auf Datei klicken → <strong>Diff-Ansicht</strong></li>
+                        <li><span style="color: #ff6b6b;"><strong>Rot</strong> = entfernt</span></li>
+                        <li><span style="color: #00ff88;"><strong>Grün</strong> = hinzugefügt</span></li>
+                    </ul>
+                    <p><strong>4. Stagen (Vorbereiten)</strong></p>
+                    <ul>
+                        <li>Auf das <strong>+</strong> neben der Datei klicken</li>
+                        <li>Datei wandert zu "Staged Changes"</li>
+                    </ul>
+                    <aside class="notes">
+                        Diff-Ansicht zeigen - Farben erklären
+                        Plus-Icon klicken, Staging demonstrieren
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Demo-Schritte (3/3)</h3>
+                    <p><strong>5. Commit erstellen</strong></p>
+                    <ul>
+                        <li><strong>Commit-Nachricht</strong> eingeben (aussagekräftig!)</li>
+                        <li>✓ Beispiel: "README aktualisiert"</li>
+                        <li>✗ Nicht: "änderungen" oder "test"</li>
+                        <li>Auf <strong>Commit</strong> Button klicken</li>
+                    </ul>
+                    <p><strong>6. Historie ansehen</strong></p>
+                    <ul>
+                        <li>Timeline oder Git Graph Extension</li>
+                        <li>Siehe alle bisherigen Commits</li>
+                    </ul>
+                    <aside class="notes">
+                        Gute vs. schlechte Commit-Nachrichten zeigen
+                        Historie in Timeline oder Git Graph zeigen
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Bonus: Änderungen rückgängig machen</h3>
+                    <p><strong>Was, wenn ich einen Fehler gemacht habe?</strong></p>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>VOR dem Stagen:</strong></p>
+                            <ul>
+                                <li>Rechtsklick auf Datei im Source Control</li>
+                                <li>Wähle <strong>"Discard Changes"</strong></li>
+                                <li>⚠️ <strong>Vorsicht:</strong> Änderungen sind unwiderruflich weg!</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>NACH dem Stagen:</strong></p>
+                            <ul>
+                                <li>Klick auf <strong>"-"</strong> Icon neben Datei</li>
+                                <li>Datei wird zurück zu "Changes" verschoben</li>
+                                <li>✅ Sicher - Änderungen bleiben erhalten</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="highlight-box">
+                        <p>💡 <strong>Tipp:</strong> Discard nur nutzen, wenn du sicher bist!</p>
+                    </div>
+                    <aside class="notes">
+                        WICHTIG: Live zeigen - Discard ist gefährlich!
+                        Zeigen: Unstagen ist sicher, Discard löscht unwiderruflich
+                        Kurz halten, nur das Wichtigste
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Was haben wir gelernt?</h3>
+                    <ul class="checklist">
+                        <li>Änderungen werden automatisch erkannt</li>
+                        <li>Wir wählen aus, was in den Commit soll (stagen)</li>
+                        <li>Commit = Speicherpunkt mit Nachricht</li>
+                        <li>Änderungen können rückgängig gemacht werden</li>
+                        <li>Historie zeigt alle Commits</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <p><strong>Der wichtigste Workflow!</strong></p>
+                    </div>
+                    <aside class="notes">
+                        Zusammenfassung - Workflow nochmal betonen
+                    </aside>
+                </section>
+            </section>
+
+            <!-- SECTION 6: DEMO 2 - REMOTE -->
+            <section>
+                <section class="center">
+                    <h2>6. LIVE-DEMO 2</h2>
+                    <h3>Mit Remote arbeiten ☁️</h3>
+                </section>
+
+                <section>
+                    <h3>Was wir zeigen werden:</h3>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>📤 Push</strong></p>
+                            <p>Lokale Commits zu GitHub hochladen</p>
+                        </div>
+                        <div>
+                            <p><strong>📥 Pull</strong></p>
+                            <p>Änderungen von GitHub holen</p>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 30px; font-size: 1.2em;">
+                        <strong>🔄 Sync = Beides zusammen!</strong>
+                    </p>
+                    <aside class="notes">
+                        Push, Pull, Sync erklären
+                        Jetzt VSCode + Browser parallel zeigen
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Push - Lokale Änderungen hochladen</h3>
+                    <ol>
+                        <li><strong>Commits sind lokal</strong>
+                            <ul><li>Nach dem Commit: nur auf deinem PC</li></ul>
+                        </li>
+                        <li><strong>Push durchführen</strong>
+                            <ul><li>Auf <strong>"..."</strong> → <strong>"Push"</strong></li></ul>
+                        </li>
+                        <li><strong>Auf GitHub überprüfen</strong>
+                            <ul><li>Commits sind jetzt online sichtbar</li></ul>
+                        </li>
+                    </ol>
+                    <aside class="notes">
+                        Live zeigen: Push zu GitHub
+                        Im Browser zeigen dass Commit online ist
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Pull - Änderungen von anderen holen</h3>
+                    <p><strong>Szenario:</strong> Jemand anderes hat etwas geändert</p>
+                    <ol>
+                        <li><strong>Datei auf GitHub direkt ändern</strong>
+                            <ul><li>Simuliert Änderung von Teammitglied</li></ul>
+                        </li>
+                        <li><strong>Pull durchführen</strong>
+                            <ul><li>Auf <strong>"..."</strong> → <strong>"Pull"</strong></li></ul>
+                        </li>
+                        <li><strong>Resultat</strong>
+                            <ul><li>Lokale Dateien sind aktualisiert</li></ul>
+                        </li>
+                    </ol>
+                    <aside class="notes">
+                        Auf GitHub Datei editieren
+                        In VSCode pullen und Änderung zeigen
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Sync - Der einfache Weg</h3>
+                    <div class="highlight-box">
+                        <p><strong>Sync-Button</strong> (unten links in VSCode):</p>
+                        <ul>
+                            <li>Führt <strong>Pull UND Push</strong> zusammen aus</li>
+                            <li>Holt neue Änderungen <strong>UND</strong> lädt deine hoch</li>
+                            <li><strong>Best Practice:</strong> Vor dem Arbeiten syncen!</li>
+                        </ul>
+                    </div>
+                    <pre><code>🔄 Sync = Pull + Push</code></pre>
+                    <aside class="notes">
+                        Sync-Button zeigen und erklären
+                        Als Best Practice etablieren
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Was haben wir gelernt?</h3>
+                    <ul class="checklist">
+                        <li><strong>Push</strong> = Deine Commits hochladen</li>
+                        <li><strong>Pull</strong> = Commits von anderen holen</li>
+                        <li><strong>Sync</strong> = Beides zusammen</li>
+                        <li>Regelmäßig syncen verhindert Probleme!</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <p><strong>Workflow erweitert:</strong><br>
+                        <strong>Sync → Ändern → Commit → Sync</strong></p>
+                    </div>
+                    <aside class="notes">
+                        Erweiterten Workflow betonen
+                    </aside>
+                </section>
+            </section>
+
+            <!-- SECTION 7: KONFLIKTE (VERKÜRZT) -->
+            <section>
+                <section class="center">
+                    <h2>7. Konflikte verstehen</h2>
+                    <h3>Wenn zwei das Gleiche ändern 🔧</h3>
+                </section>
+
+                <section>
+                    <h3>Was ist ein Konflikt?</h3>
+                    <p><strong>Situation:</strong></p>
+                    <ul>
+                        <li>Du änderst Zeile 5: <code>"Hallo Welt"</code></li>
+                        <li>Jemand anders ändert Zeile 5: <code>"Hello World"</code></li>
+                        <li>Beim Pull: Git weiß nicht, welche Version richtig ist</li>
+                        <li>= <strong>KONFLIKT</strong> (Merge Conflict)</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <p><strong>Keine Panik!</strong> Das passiert selten am Anfang - und VSCode hilft. 🛟</p>
+                    </div>
+                    <aside class="notes">
+                        Beruhigend wirken: Konflikte sind bei Einzelarbeit selten
+                        Erst relevant bei Teamarbeit
+                        Nicht zu viel Zeit hier - Details in Backup-Folien
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Wie VSCode hilft</h3>
+                    <p><strong>VSCode zeigt Konflikte visuell:</strong></p>
+                    <pre><code class="language-diff"><<<<<<< HEAD (Current Change)
+Hallo Welt
+=======
+Hello World
+>>>>>>> incoming (Incoming Change)</code></pre>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Einfache Optionen:</strong></p>
+                            <ul>
+                                <li>✅ Accept Current</li>
+                                <li>✅ Accept Incoming</li>
+                                <li>✅ Accept Both</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Nach der Wahl:</strong></p>
+                            <ul>
+                                <li>Speichern</li>
+                                <li>Stagen</li>
+                                <li>Commit erstellen</li>
+                                <li>Pushen → Fertig!</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <aside class="notes">
+                        NUR theoretisch erklären, keine Live-Demo jetzt
+                        Zeit sparen - Details in Backup-Folien
+                        Wichtig: Beruhigen, dass es selten passiert
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Konflikte vermeiden 💡</h3>
+                    <p><strong>Best Practices:</strong></p>
+                    <ul class="checklist">
+                        <li><strong>Regelmäßig syncen</strong> (vor dem Arbeiten!)</li>
+                        <li><strong>Oft committen & pushen</strong> (nicht tagelang warten)</li>
+                        <li><strong>Mit Team absprechen</strong> (wer arbeitet woran?)</li>
+                        <li><strong>Nicht gleichzeitig an derselben Datei</strong> (wenn möglich)</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <p><strong>90% der Konflikte vermeidest du so!</strong> ✅</p>
+                    </div>
+                    <p style="margin-top: 20px; font-size: 0.9em;">
+                        💡 <strong>Tipp:</strong> Ausführliche Demo dazu in den Backup-Folien (bei Interesse)
+                    </p>
+                    <aside class="notes">
+                        Prävention ist wichtiger als Lösung!
+                        Keine Live-Demo, Zeit sparen
+                        Bei Interesse/Fragen: Backup-Folien zeigen
+                        Weiter zur Zusammenfassung
+                    </aside>
+                </section>
+            </section>
+
+            <!-- SECTION 8: ZUSAMMENFASSUNG -->
+            <section>
+                <section class="center">
+                    <h2>8. Zusammenfassung</h2>
+                    <h3>Best Practices 📝</h3>
+                </section>
+
+                <section>
+                    <h3>Die 4 Kern-Aktionen</h3>
+                    <pre><code>┌─────────────────────────────────────┐
+│                                     │
+│  1. 📥 PULL/SYNC  (vor dem Arbeiten)│
+│                                     │
+│  2. ✏️  ÄNDERN    (deine Arbeit)    │
+│                                     │
+│  3. 💾 COMMIT     (Speicherpunkt)   │
+│                                     │
+│  4. 📤 PUSH/SYNC  (teilen)          │
+│                                     │
+└─────────────────────────────────────┘</code></pre>
+                    <p style="text-align: center; font-size: 1.2em; margin-top: 30px;">
+                        <strong>Wiederhole diesen Zyklus!</strong>
+                    </p>
+                    <aside class="notes">
+                        4-Schritt-Workflow als wichtigste Takeaway
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Best Practices</h3>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Commit-Nachrichten:</strong></p>
+                            <ul>
+                                <li>✓ "Login-Bug behoben"</li>
+                                <li>✗ "änderungen", "test"</li>
+                            </ul>
+                            <p><strong>Commit-Häufigkeit:</strong></p>
+                            <ul>
+                                <li>✓ Oft committen</li>
+                                <li>✗ Riesige Commits</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Workflow:</strong></p>
+                            <ul>
+                                <li>✓ Immer vorher pullen</li>
+                                <li>✓ Regelmäßig committen</li>
+                                <li>✓ Am Ende pushen</li>
+                            </ul>
+                            <p><strong>.gitignore:</strong></p>
+                            <ul>
+                                <li>✓ Passwörter ausschließen</li>
+                                <li>✓ Große Dateien ausschließen</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <aside class="notes">
+                        Best Practices durchgehen
+                        Als Checkliste zum Mitnehmen
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>.gitignore</h3>
+                    <p>Was <strong>NICHT</strong> ins Repository gehört:</p>
+                    <ul>
+                        <li>🔒 Passwörter / API-Keys</li>
+                        <li>📦 Große Binärdateien</li>
+                        <li>🗑️ Temporäre Dateien</li>
+                        <li>⚙️ IDE-spezifische Einstellungen</li>
+                    </ul>
+                    <p><strong>Lösung:</strong> <code>.gitignore</code> Datei</p>
+                    <pre><code>node_modules/
+*.log
+.env
+secrets.json</code></pre>
+                    <aside class="notes">
+                        Wichtig: Secrets nicht committen!
+                        .gitignore kurz erwähnen
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Hilfe & Ressourcen 🆘</h3>
+                    <p><strong>Wichtigste Ressourcen:</strong></p>
+                    <ul>
+                        <li>🎮 <strong>Interaktiv lernen:</strong> learngitbranching.js.org</li>
+                        <li>💻 <strong>VSCode Docs:</strong> code.visualstudio.com/docs/sourcecontrol</li>
+                        <li>🔍 <strong>Bei Problemen:</strong> Google "git [Problem] vscode"</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <p><strong>Tipp:</strong> Alle Details & Links findet ihr im Handout! 📄</p>
+                    </div>
+                    <aside class="notes">
+                        Auf Handout verweisen - da sind alle Details!
+                        Weitere Ressourcen: git-scm.com/doc, lab.github.com, Stack Overflow
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Wichtigste Takeaways 🎯</h3>
+                    <div class="highlight-box">
+                        <ol>
+                            <li><strong>Git = Zeitmaschine für Code</strong> ⏰</li>
+                            <li><strong>VSCode macht Git einfach</strong> 💚</li>
+                            <li><strong>Workflow: Pull → Ändern → Commit → Push</strong> 🔄</li>
+                            <li><strong>Konflikte sind normal und lösbar</strong> 🛠️</li>
+                            <li><strong>Oft committen = besser als selten</strong> ✅</li>
+                        </ol>
+                    </div>
+                    <p style="text-align: center; font-size: 1.3em; margin-top: 30px;">
+                        <strong>Ihr könnt das! Es braucht nur etwas Übung.</strong> 💪
+                    </p>
+                    <aside class="notes">
+                        Zusammenfassung und Motivation
+                        Mut zusprechen!
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Quick Reference 📋</h3>
+                    <p><strong>Die wichtigsten VSCode-Aktionen auf einen Blick:</strong></p>
+                    <table style="width: 100%; font-size: 0.85em;">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left;">Aktion</th>
+                                <th style="text-align: left;">Wie?</th>
+                                <th style="text-align: left;">Shortcut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Source Control öffnen</strong></td>
+                                <td>Icon in Seitenleiste</td>
+                                <td><kbd>Strg+Shift+G</kbd></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Datei stagen</strong></td>
+                                <td>+ Icon klicken</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Commit erstellen</strong></td>
+                                <td>Nachricht → ✓ klicken</td>
+                                <td><kbd>Strg+Enter</kbd></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Push/Pull (Sync)</strong></td>
+                                <td>Sync-Button (unten links)</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Änderungen verwerfen</strong></td>
+                                <td>Rechtsklick → Discard</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Diff ansehen</strong></td>
+                                <td>Klick auf Datei</td>
+                                <td>-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="highlight-box" style="margin-top: 20px;">
+                        <p>📄 <strong>Alle Details im Handout!</strong> (Bitte mitnehmen beim Rausgehen)</p>
+                    </div>
+                    <aside class="notes">
+                        Zum Abschreiben oder fotografieren
+                        Auf Handout hinweisen - da steht alles nochmal drin!
+                    </aside>
+                </section>
+            </section>
+
+            <!-- QUESTIONS -->
+            <section class="center">
+                <h1>Fragen? 🙋</h1>
+                <h2>Danke für eure Aufmerksamkeit!</h2>
+                <p style="font-size: 1.2em; margin-top: 50px;">
+                    <strong>Denkt daran, euer Handout mitzunehmen!</strong>
+                </p>
+                <aside class="notes">
+                    Zeit für Fragen
+                    Auf Handout hinweisen
+                    Feedback einholen
+                </aside>
+            </section>
+
+            <!-- BACKUP SLIDES -->
+            <section>
+                <section class="center">
+                    <h2>Backup-Folien</h2>
+                    <p>(bei Bedarf / Fragen)</p>
+                </section>
+
+                <section class="center">
+                    <h3>🔧 Konflikte lösen - Ausführliche Demo</h3>
+                    <p>(Falls im Hauptteil übersprungen)</p>
+                </section>
+
+                <section>
+                    <h3>Konflikt erzeugen (Demo-Setup)</h3>
+                    <p><strong>Schritt-für-Schritt:</strong></p>
+                    <ol>
+                        <li><strong>Lokale Änderung machen</strong>
+                            <ul>
+                                <li>Öffne z.B. <code>config.txt</code></li>
+                                <li>Ändere Zeile: <code>dozent = Max Mustermann</code> → <code>dozent = Anna Schmidt</code></li>
+                                <li>Speichern → Stagen → Commit: "Dozent aktualisiert"</li>
+                                <li><strong>NICHT pushen!</strong></li>
+                            </ul>
+                        </li>
+                        <li><strong>Remote-Änderung simulieren</strong>
+                            <ul>
+                                <li>Auf GitHub: Dieselbe Datei öffnen</li>
+                                <li>Edit-Button klicken</li>
+                                <li>Ändere DIESELBE Zeile: <code>dozent = Lisa Müller</code></li>
+                                <li>Direkt auf GitHub committen</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <aside class="notes">
+                        Setup für Konflikt - live demonstrieren
+                        Wichtig: Dieselbe Zeile ändern!
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Konflikt auslösen</h3>
+                    <ol start="3">
+                        <li><strong>Zurück in VSCode: Pushen versuchen</strong>
+                            <ul>
+                                <li>Source Control → ... → Push</li>
+                                <li>❌ <strong>Fehler:</strong> "Updates were rejected"</li>
+                                <li>Git sagt: Du musst erst pullen!</li>
+                            </ul>
+                        </li>
+                        <li><strong>Pull durchführen</strong>
+                            <ul>
+                                <li>Source Control → ... → Pull</li>
+                                <li>💥 <strong>MERGE CONFLICT!</strong></li>
+                                <li>Datei wird mit <strong>C</strong> markiert</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <div class="warning-box">
+                        <p><strong>Keine Panik!</strong> Genau das wollen wir - jetzt zeigen wir, wie man's löst. 🛟</p>
+                    </div>
+                    <aside class="notes">
+                        Zeigen: Push rejected, dann Pull → Konflikt
+                        Datei in Source Control mit C markiert
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Konflikt in VSCode ansehen</h3>
+                    <p><strong>Öffne die Datei mit Konflikt:</strong></p>
+                    <pre><code class="language-diff"><<<<<<< HEAD (Current Change)
+dozent = Anna Schmidt
+=======
+dozent = Lisa Müller
+>>>>>>> origin/main (Incoming Change)</code></pre>
+                    <p><strong>Was bedeutet das?</strong></p>
+                    <ul>
+                        <li><code><<<<<<< HEAD</code> = <strong>Deine lokale Version</strong></li>
+                        <li><code>=======</code> = <strong>Trenner</strong></li>
+                        <li><code>>>>>>>> origin/main</code> = <strong>Version vom Server</strong></li>
+                    </ul>
+                    <aside class="notes">
+                        Konfliktmarker genau erklären
+                        HEAD = deine Version, origin = Server-Version
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Konflikt lösen - Die 4 Optionen</h3>
+                    <p><strong>VSCode zeigt über dem Konflikt:</strong></p>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>1. Accept Current Change</strong></p>
+                            <ul><li>= Deine Version behalten (Anna Schmidt)</li></ul>
+                            <p><strong>2. Accept Incoming Change</strong></p>
+                            <ul><li>= Server-Version nehmen (Lisa Müller)</li></ul>
+                        </div>
+                        <div>
+                            <p><strong>3. Accept Both Changes</strong></p>
+                            <ul><li>= Beide Zeilen behalten (beide Dozenten)</li></ul>
+                            <p><strong>4. Compare Changes</strong></p>
+                            <ul><li>= Diff-Ansicht öffnen zum Vergleichen</li></ul>
+                        </div>
+                    </div>
+                    <div class="highlight-box">
+                        <p>💡 Für dieses Beispiel: Wähle <strong>"Accept Current Change"</strong> (Anna)</p>
+                    </div>
+                    <aside class="notes">
+                        Live zeigen: Optionen über dem Konflikt
+                        Auf "Accept Current Change" klicken
+                        Zeigen: Konfliktmarker verschwinden automatisch
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Konflikt als gelöst markieren</h3>
+                    <p><strong>Nach der Wahl:</strong></p>
+                    <ol>
+                        <li><strong>Datei speichern</strong> (<kbd>Strg+S</kbd>)
+                            <ul><li>Konfliktmarker sind weg, nur noch deine Wahl steht da</li></ul>
+                        </li>
+                        <li><strong>Datei stagen</strong> (+ Icon)
+                            <ul><li>Git weiß jetzt: "Konflikt ist gelöst"</li></ul>
+                        </li>
+                        <li><strong>Commit erstellen</strong>
+                            <ul><li>Nachricht: z.B. "Merge-Konflikt in dozent-Feld gelöst"</li></ul>
+                        </li>
+                        <li><strong>Pushen</strong>
+                            <ul><li>Jetzt klappt's! ✅</li></ul>
+                        </li>
+                    </ol>
+                    <aside class="notes">
+                        Schritt für Schritt zeigen
+                        Zeigen: Nach Push ist alles wieder normal
+                        Auf GitHub verifizieren: Anna Schmidt steht jetzt online
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Konflikt-Lösung verifizieren</h3>
+                    <p><strong>Zurück auf GitHub:</strong></p>
+                    <ul>
+                        <li>Refresh die Seite</li>
+                        <li>Öffne <code>config.txt</code></li>
+                        <li>✅ Deine gewählte Version steht jetzt online!</li>
+                        <li>✅ Commit-Historie zeigt beide Commits + Merge-Commit</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <p><strong>Fertig!</strong> Konflikt erfolgreich gelöst und hochgeladen. 🎉</p>
+                    </div>
+                    <aside class="notes">
+                        Erfolg feiern!
+                        Betonen: War gar nicht so schlimm, oder?
+                        Mit Übung wird es Routine
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Häufige Konflikt-Szenarien</h3>
+                    <p><strong>Wann treten Konflikte auf?</strong></p>
+                    <ul>
+                        <li>🔹 <strong>Teamarbeit:</strong> Zwei Personen ändern dieselbe Datei</li>
+                        <li>🔹 <strong>Mehrere Geräte:</strong> Du arbeitest auf Laptop UND Uni-PC</li>
+                        <li>🔹 <strong>Lange Pausen:</strong> Tagelang nicht gepullt, andere haben weitergearbeitet</li>
+                        <li>🔹 <strong>Merge von Branches:</strong> Feature-Branch mit main mergen</li>
+                    </ul>
+                    <p><strong>Prävention:</strong></p>
+                    <ul class="checklist">
+                        <li>Immer vor dem Arbeiten syncen!</li>
+                        <li>Häufig committen & pushen</li>
+                        <li>Im Team absprechen, wer an welcher Datei arbeitet</li>
+                    </ul>
+                    <aside class="notes">
+                        Kontextualisieren: Wann passieren Konflikte?
+                        Prävention betonen - besser als Lösung!
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Branch-Basics</h3>
+                    <p><strong>Branch = Parallele Version</strong></p>
+                    <pre><code>main:     A ── B ── C ── D
+               ╲
+feature:        X ── Y</code></pre>
+                    <ul>
+                        <li>Experimentiere ohne das Original zu ändern</li>
+                        <li>Merge zurück, wenn fertig</li>
+                        <li><strong>Fortgeschrittenes Thema für später!</strong></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Git vs. GitHub</h3>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Git:</strong></p>
+                            <ul>
+                                <li>Versionskontrollsystem</li>
+                                <li>Läuft auf deinem Computer</li>
+                                <li>Open Source</li>
+                                <li>Offline nutzbar</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>GitHub:</strong></p>
+
+                            <ul>
+                                <li>Website / Plattform</li>
+                                <li>Hostet Repositories</li>
+                                <li>Zusatzfeatures</li>
+                                <li><strong>Alternativen:</strong> GitLab, Bitbucket</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Typische Anfängerfehler</h3>
+                    <ul>
+                        <li>❌ <strong>Nie committen / Riesige Commits</strong><br>
+                            ✅ Kleine, häufige Commits stattdessen</li>
+                        <li>❌ <strong>Niemals pushen</strong><br>
+                            ✅ Backup geht verloren - regelmäßig pushen!</li>
+                        <li>❌ <strong>Passwörter/Secrets committen</strong><br>
+                            ✅ .gitignore nutzen!</li>
+                        <li>❌ <strong>Konflikte ignorieren</strong><br>
+                            ✅ Müssen gelöst werden - keine Panik!</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Erstes Push: Publish Branch</h3>
+                    <ol>
+                        <li><strong>Publish Branch</strong> klicken (Statusleiste/Source Control)</li>
+                        <li>Bei <strong>GitHub anmelden</strong> und Repository anlegen</li>
+                        <li><strong>Upstream</strong> wird gesetzt (origin/main)</li>
+                        <li>Ab dann: <strong>Push/Pull/Sync</strong> wie gewohnt</li>
+                    </ol>
+                    <div class="highlight-box">
+                        <p>Tipp: Sichtbarkeit (<strong>privat/öffentlich</strong>) wählen, README/Lizenz optional hinzufügen.</p>
+                    </div>
+                    <aside class="notes">Erstes Push live zeigen: Publish Branch → Login → Upstream → normaler Flow.</aside>
+                </section>
+
+                <section>
+                    <h3>Änderungen rückgängig machen</h3>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Unstaged Dateien:</strong></p>
+                            <ul>
+                                <li>Rechtsklick → <strong>Discard Changes</strong></li>
+                                <li>Im Diff einzelne Blöcke verwerfen</li>
+                            </ul>
+                            <p><strong>Staged Dateien:</strong> Mit <strong>-</strong> wieder unstagen</p>
+                        </div>
+                        <div>
+                            <p><strong>Nach Commit:</strong></p>
+                            <ul>
+                                <li>Commit auswählen → <strong>Revert</strong> (Gegen-Commit)</li>
+                                <li><strong>Amend</strong> (letzten Commit anpassen)</li>
+                            </ul>
+                            <p class="warning-box"><strong>Reset</strong> ist fortgeschritten → nur erwähnen</p>
+                        </div>
+                    </div>
+                    <aside class="notes">Risikoarme Wege: Discard, Revert, Amend. Reset nur nennen.</aside>
+                </section>
+
+                <section>
+                    <h3>Glossar (Kurz)</h3>
+                    <ul>
+                        <li><strong>Arbeitsverzeichnis</strong>: Deine Projektdateien</li>
+                        <li><strong>Staging Area</strong>: Auswahl für den nächsten Commit</li>
+                        <li><strong>Commit</strong>: Schnappschuss + Nachricht</li>
+                        <li><strong>Repository</strong>: Projekt inkl. Historie</li>
+                        <li><strong>Remote</strong>: Online-Kopie (GitHub/GitLab)</li>
+                    </ul>
+                    <aside class="notes">Diese Begriffe immer wieder nutzen – sorgt für Klarheit.</aside>
+                </section>
+
+            </section>
+
+            <!-- FINAL SLIDE -->
+            <section class="center title-slide">
+                <h1>Viel Erfolg! 🚀</h1>
+                <h2><strong>Oft committen!</strong> 💾</h2>
+                <aside class="notes">
+                    Abschließende Motivation
+                    Kontaktdaten nennen falls gewünscht
+                </aside>
+            </section>
+
         </div>
     </div>
+
+    <!-- Reveal.js Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/search/search.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/zoom/zoom.js"></script>
+
+    <!-- Initialize Particles.js -->
+    <script>
+        /* disabled */ if(false) particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 40,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: ['#00ff88', '#a855f7', '#3b82f6']
+                },
+                shape: {
+                    type: 'circle'
+                },
+                opacity: {
+                    value: 0.5,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#00ff88',
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false,
+                    attract: {
+                        enable: true,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'grab'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 0.5
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+    </script>
+
+    <!-- Initialize Reveal.js -->
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            progress: true,
+            center: false,
+            controls: true,
+            controlsTutorial: true,
+            overview: true,
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+
+            // Plugins
+            plugins: [ RevealHighlight, RevealNotes, RevealSearch, RevealZoom ],
+
+            // Keyboard shortcuts
+            keyboard: {
+                // 's' öffnet Speaker Notes in neuem Fenster
+                // 'o' oder 'Esc' öffnet Übersichtsansicht
+                // 'f' für Fullscreen
+                // 'b' oder '.' für Blackout
+                // 't' für Theme Toggle
+                84: () => { // 't' key
+                    toggleTheme();
+                }
+            }
+        });
+    </script>
+
+    <!-- Theme Toggle Functionality -->
+    <script>
+        // Initialize theme from localStorage or default to dark
+        const initTheme = () => {
+            const savedTheme = localStorage.getItem('git-workshop-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        };
+
+        // Toggle between light and dark themes
+        const toggleTheme = () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            // Add changing animation
+            const toggleBtn = document.getElementById('theme-toggle');
+            toggleBtn.classList.add('changing');
+
+            // Change theme
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('git-workshop-theme', newTheme);
+
+            // Remove animation class after animation completes
+            setTimeout(() => {
+                toggleBtn.classList.remove('changing');
+            }, 500);
+        };
+
+        // Add event listener to toggle button
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+
+            const toggleBtn = document.getElementById('theme-toggle');
+            toggleBtn.addEventListener('click', toggleTheme);
+        });
+
+        // Initialize theme immediately (before DOMContentLoaded for faster loading)
+        initTheme();
+    </script>
+    
+    <!-- Auto-fragment all content on leaf slides -->
+    <script>
+      (function() {
+        function autoFragment() {
+          var sections = document.querySelectorAll('.reveal .slides section');
+          sections.forEach(function(sec) {
+            // Skip vertical stack containers
+            var hasSub = Array.from(sec.children).some(function(c){ return c.tagName === 'SECTION'; });
+            if (hasSub) return;
+
+            // Add fragments to direct children (except notes/scripts/styles)
+            Array.from(sec.children).forEach(function(el){
+              if (['ASIDE','SCRIPT','STYLE','H1','H2','H3','H4','H5','H6'].includes(el.tagName)) return;
+              el.classList.add('fragment','fade-in');
+            });
+
+            // Lists: reveal items one by one
+            sec.querySelectorAll('ul, ol').forEach(function(list){
+              list.classList.remove('fragment','fade-in');
+              Array.from(list.children).forEach(function(li){ li.classList.add('fragment','fade-in'); });
+            });
+
+            // Tables: reveal rows
+            sec.querySelectorAll('thead tr, tbody tr, tfoot tr').forEach(function(tr){
+              tr.classList.add('fragment','fade-in');
+            });
+          });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', autoFragment);
+        } else {
+          autoFragment();
+        }
+      })();
+    </script>
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <section>
+                    <h3>Glossar (Kurz)</h3>
+                    <ul>
+                        <li><strong>Arbeitsverzeichnis</strong>: Deine Projektdateien</li>
+                        <li><strong>Staging Area</strong>: Auswahl für den nächsten Commit</li>
+                        <li><strong>Commit</strong>: Schnappschuss + Nachricht</li>
+                        <li><strong>Repository</strong>: Projekt inkl. Historie</li>
+                        <li><strong>Remote</strong>: Online-Kopie (GitHub/GitLab)</li>
+                    </ul>
+                    <aside class="notes">Diese Begriffe immer wieder nutzen – sorgt für Klarheit.</aside>
+                </section>
